@@ -170,11 +170,7 @@ def test_repository_configs_are_valid():
 
     # Examples may choose an explicit budget rather than the schema default.
     assert cfg.model.params.n_estimators > 0
-    assert (
-        0
-        < cfg.model.params.early_stopping_rounds
-        <= cfg.model.params.n_estimators
-    )
+    assert 0 < cfg.model.params.early_stopping_rounds <= cfg.model.params.n_estimators
     assert cfg.analysis.error_sample_size >= 0
 
     sweep = rc.expand_sweep(CONFIGS / "sweep" / "xgb_grid.yaml")
