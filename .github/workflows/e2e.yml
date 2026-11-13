@@ -1,0 +1,44 @@
+# name: E2E Operational Replay
+
+# on:
+#   workflow_dispatch: # Enables the manual "Run workflow" button in GitHub Actions tab
+#   # Optional: run automatically once a week on Sunday at midnight:
+#   # schedule:
+#   #   - cron: "0 0 * * 0"
+
+# jobs:
+#   full-e2e:
+#     runs-on: ubuntu-latest
+#     steps:
+#       - uses: actions/checkout@v4
+
+#       - uses: actions/setup-python@v5
+#         with:
+#           python-version: "3.11"
+
+#       - uses: astral-sh/setup-uv@v5
+#         with:
+#           enable-cache: true
+
+#       - name: Install dependencies
+#         run: uv sync --frozen --all-groups
+
+#       - name: Fetch raw SECOM dataset
+#         run: |
+#           mkdir -p data/raw
+#           curl -sSL "https://archive.ics.uci.edu/static/public/179/secom.zip" -o /tmp/secom.zip
+#           unzip -q /tmp/secom.zip -d data/raw/
+#           # Standardize names if needed:
+#           # mv data/raw/secom.data data/raw/
+#           # mv data/raw/secom_labels.data data/raw/
+
+#       - name: Run full E2E pipeline
+#         run: |
+#           make ingest   # Builds data/secom.db from raw files in 3 seconds
+#           make demo     # Runs simulation -> score -> monitor
+#           make trigger  # Runs retraining policy
+
+#       - name: Assert output integrity
+#         run: |
+#           test -f artifacts/index_monitor.csv
+#           test -d artifacts/monitoring

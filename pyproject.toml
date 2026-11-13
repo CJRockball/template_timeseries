@@ -1,0 +1,108 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "tabular-ml-template"
+version = "0.1.0"
+description = "A reproducible template for tabular machine-learning projects."
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "MIT" }
+authors = [{ name = "Patrick Carlberg" }]
+keywords = [
+    "machine-learning",
+    "tabular-data",
+    "mlops",
+    "experiment-tracking",
+    "reproducibility",
+    "xgboost",
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Scientific/Engineering",
+]
+# Only what the code actually imports. Add a dependency when a module
+# needs it, not before.
+dependencies = [
+    "numpy>=1.26",
+    "pandas>=2.2",
+    "pyarrow>=15.0", # parquet I/O
+    "scikit-learn>=1.4,<2.0", # RepeatedStratifiedKFold, metrics, mutual_info
+    "xgboost==2.1.1", # 2.x callback API (EarlyStopping save_best)
+    "scipy>=1.11", # spearmanr, connected_components, stats
+    "matplotlib>=3.8",
+    "seaborn>=0.13",
+    "pydantic>=2.0,<3.0",
+    "sqlalchemy>=2.0,<2.1",
+    "pandera>=0.33.1",
+    "statsmodels>=0.14",
+    "shap>=0.45",
+    "jupyterlab>=4.0",
+    "ipykernel>=6.27",
+    "dash>=3.4,<4",
+    "plotly>=6,<7",
+    "dash-ag-grid>=33",
+    "pyyaml>=6.0.3",
+    "xlrd >= 2.0.1",
+]
+ 
+# Optional model libraries. Install with: uv sync --extra lgbm --extra catboost
+[project.optional-dependencies]
+pytorch = ["torch==2.9.1+cu126"]
+lgbm = ["lightgbm>=4.3"]
+catboost = ["catboost>=1.2"]
+
+
+# Dependency groups = DEVELOPER-only tooling, never published (PEP 735).
+# Install: uv pip install --group dev   (or: uv pip install -e . --group dev)
+[dependency-groups]
+dev = [
+    "pytest>=8.0",
+    "ruff>=0.5",
+    "mypy>=1.10",
+]
+ 
+[project.urls]
+Repository = "https://github.com/CJRockball/ml-template-kaggle"
+
+# Proper src layout: modules live in src/ml_template/, so the installed
+# package is `ml_template` (not `src`).
+[tool.hatch.build.targets.wheel]
+packages = ["src/ml_template"]
+
+[project.scripts]
+
+
+[tool.ruff]
+target-version = "py311"
+line-length = 100
+src = ["src"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "W", "UP", "B", "SIM"]
+ignore = ["E501"]  # line length handled by the formatter
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
+markers = [
+    "local_data: requires local data files and is excluded from default CI",
+]
+
+[tool.mypy]
+python_version = "3.11"
+ignore_missing_imports = true   # xgboost/shap ship incomplete stubs
+
+[tool.uv.sources]
+torch = { index = "pytorch-cu126" }
+
+[[tool.uv.index]]
+name = "pytorch-cu126"
+url = "https://download.pytorch.org/whl/cu126"
+explicit = true

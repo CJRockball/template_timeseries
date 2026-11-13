@@ -1,0 +1,18 @@
+# TEMPLATE ONLY: bind actual data/artifact IDs and declared units before use.
+# No measured outcomes, real release IDs or operator approvals are supplied.
+# Requires a bound experiment/Silver ID; use synthetic smoke first.
+source: experiment
+experiment: configs/experiment/nn_binary.example.yaml
+sample_rows: 256
+seed: 42
+validation_fraction: 0.25
+timeout_seconds: 120
+overrides:
+  device: cpu
+  inference_device: cpu
+  max_epochs: 3
+  patience: 2
+  hidden_dims:
+  - 16
+  - 8
+  batch_size: 32

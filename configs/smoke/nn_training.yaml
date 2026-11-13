@@ -1,0 +1,26 @@
+# TEMPLATE ONLY: bind actual data/artifact IDs and declared units before use.
+# No measured outcomes, real release IDs or operator approvals are supplied.
+# Synthetic smoke generates num_0/num_1/cat_0; infer its branches instead of using the dataset-example x1/x2 columns. CPU only.
+source: synthetic
+model_file: configs/model/nn_binary.example.yaml
+sample_rows: 128
+seed: 42
+validation_fraction: 0.25
+timeout_seconds: 120
+overrides:
+  device: cpu
+  inference_device: cpu
+  max_epochs: 3
+  patience: 2
+  hidden_dims:
+  - 16
+  - 8
+  batch_size: 32
+  preprocessing:
+    numeric: null
+    categorical: null
+    numeric_strategy: median
+    scaling: standard
+    constant_fill: 0.0
+    all_missing_fill: 0.0
+    unknown_policy: reserved

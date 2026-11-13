@@ -1,0 +1,10 @@
+# TEMPLATE ONLY: bind actual data/artifact IDs and declared units before use.
+# No measured outcomes, real release IDs or operator approvals are supplied.
+# Binary probability calibration, never regression.
+schema_version: 1
+parent_run_id: run_REPLACE_WITH_ACTUAL_ID
+method: sigmoid
+epsilon: 1.0e-07
+l2: 1.0e-06
+reliability_bins: 10
+min_class_count: 10

@@ -1,0 +1,11 @@
+# TEMPLATE ONLY: bind actual data/artifact IDs and declared units before use.
+# No measured outcomes, real release IDs or operator approvals are supplied.
+type: catboost
+params:
+  loss_function: Logloss
+  eval_metric: PRAUC
+  n_estimators: 300
+  early_stopping_rounds: 20
+  depth: 4
+  learning_rate: 0.05
+  scale_pos_weight: auto

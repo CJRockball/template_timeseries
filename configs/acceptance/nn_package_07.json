@@ -1,0 +1,79 @@
+{
+  "schema_version": 1,
+  "baseline": "57fa05eeb216212c7bf356ce1a138a4d2ff7010a",
+  "scope": "synthetic CPU lifecycle and saved UI only",
+  "phases": [
+    {
+      "name": "gate_selftest",
+      "tests": [
+        "tests/runtime/test_nn_lifecycle_07_acceptance.py"
+      ],
+      "strict": true
+    },
+    {
+      "name": "package_01",
+      "tests": [
+        "tests/models/test_nn_lifecycle_01.py",
+        "tests/models/test_nn_lifecycle_01_native.py"
+      ],
+      "strict": true
+    },
+    {
+      "name": "package_02",
+      "tests": [
+        "tests/calibration/test_nn_lifecycle_02.py",
+        "tests/calibration/test_nn_lifecycle_02_native.py"
+      ],
+      "strict": true
+    },
+    {
+      "name": "package_03",
+      "tests": [
+        "tests/evaluation/test_nn_lifecycle_03.py",
+        "tests/evaluation/test_nn_lifecycle_03_native.py"
+      ],
+      "strict": true
+    },
+    {
+      "name": "package_04",
+      "tests": [
+        "tests/scoring/test_nn_lifecycle_04.py",
+        "tests/scoring/test_nn_lifecycle_04_native.py"
+      ],
+      "strict": true
+    },
+    {
+      "name": "package_05",
+      "tests": [
+        "tests/scoring/test_nn_lifecycle_05.py",
+        "tests/scoring/test_nn_lifecycle_05_native.py"
+      ],
+      "strict": true
+    },
+    {
+      "name": "package_06",
+      "tests": [
+        "tests/monitoring/test_nn_lifecycle_06.py",
+        "tests/monitoring/test_nn_lifecycle_06_native.py",
+        "tests/monitoring/test_nn_package_06_input_format_fix.py"
+      ],
+      "strict": true
+    },
+    {
+      "name": "ui_compatibility",
+      "tests": [
+        "tests/monitoring/test_monitoring_part2_bundle.py",
+        "tests/usage_dashboard/test_usage_app.py",
+        "tests/usage_dashboard/test_nn_package_06_export_callback.py"
+      ],
+      "strict": true
+    },
+    {
+      "name": "compatibility",
+      "tests": [
+        "tests"
+      ],
+      "strict": false
+    }
+  ]
+}

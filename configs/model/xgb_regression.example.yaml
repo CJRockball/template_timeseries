@@ -1,0 +1,13 @@
+# TEMPLATE ONLY: bind actual data/artifact IDs and declared units before use.
+# No measured outcomes, real release IDs or operator approvals are supplied.
+type: xgb
+params:
+  objective: reg:squarederror
+  eval_metric: rmse
+  n_estimators: 300
+  early_stopping_rounds: 20
+  max_depth: 3
+  learning_rate: 0.05
+  subsample: 0.8
+  colsample_bytree: 0.8
+  device: cpu

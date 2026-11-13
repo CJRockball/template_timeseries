@@ -1,0 +1,95 @@
+name: NN lifecycle acceptance (manual)
+
+on:
+  workflow_dispatch:
+    inputs:
+      phase:
+        description: "Choose all for full acceptance; everything else is diagnostic"
+        required: true
+        type: choice
+        default: gate_selftest
+        options: [gate_selftest, package_01, package_02, package_03, package_04, package_05, package_06, ui_compatibility, compatibility, all]
+      python_version:
+        description: "One Python first; both only when ready"
+        required: true
+        type: choice
+        default: "3.11"
+        options: ["3.11", "3.12", both]
+      phase_timeout_s:
+        description: "Per-phase seconds (maximum 360)"
+        required: true
+        type: number
+        default: 90
+      total_timeout_s:
+        description: "Overall acceptance seconds (maximum 360)"
+        required: true
+        type: number
+        default: 360
+
+permissions:
+  contents: read
+
+concurrency:
+  group: nn-acceptance-manual-${{ github.ref }}-${{ inputs.phase }}-${{ inputs.python_version }}
+  cancel-in-progress: true
+
+jobs:
+  synthetic-cpu:
+    name: "${{ inputs.phase }} / CPU Python ${{ matrix.python }}"
+    runs-on: ubuntu-latest
+    timeout-minutes: 80
+    strategy:
+      fail-fast: false
+      matrix:
+        python: ${{ fromJSON(inputs.python_version == 'both' && '["3.11","3.12"]' || format('["{0}"]', inputs.python_version)) }}
+    env:
+      OMP_NUM_THREADS: "1"
+      MKL_NUM_THREADS: "1"
+      OPENBLAS_NUM_THREADS: "1"
+      PYTHONHASHSEED: "0"
+      NN_PHASE: ${{ inputs.phase }}
+      NN_PHASE_TIMEOUT: ${{ inputs.phase_timeout_s }}
+      NN_TOTAL_TIMEOUT: ${{ inputs.total_timeout_s }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+      - uses: astral-sh/setup-uv@v6
+        with:
+          enable-cache: true
+      - name: Install locked base and developer environment
+        run: uv sync --locked --group dev
+      - name: Install explicit fresh-CI CPU Torch overlay
+        run: >-
+          uv pip install --python .venv/bin/python --no-config
+          --default-index https://pypi.org/simple
+          --index https://download.pytorch.org/whl/cpu
+          'torch==2.9.1+cpu'
+      - name: Verify overlay and bounded inputs
+        run: |
+          uv run --no-sync python -c "import torch, pyarrow, sqlalchemy, dash, dash_ag_grid, os, math; assert torch.__version__ == '2.9.1+cpu'; assert not torch.cuda.is_available(); values=[float(os.environ[k]) for k in ['NN_PHASE_TIMEOUT','NN_TOTAL_TIMEOUT']]; assert all(math.isfinite(v) and 0 < v <= 3600 for v in values); print(torch.__version__)"
+      - name: Ruff without source fixes
+        run: uv run --no-sync ruff check .
+      - name: Runner cancellation, deadline and evidence tests
+        run: uv run --no-sync pytest -v -rs tests/runtime/test_nn_lifecycle_08_acceptance.py
+      - name: Read-only selected-scope preflight
+        run: >-
+          uv run --no-sync python -u scripts/nn_acceptance_live.py --check
+          --phase "$NN_PHASE" --phase-timeout-s "$NN_PHASE_TIMEOUT"
+          --total-timeout-s "$NN_TOTAL_TIMEOUT"
+      - name: Live bounded acceptance (selected phases are diagnostic)
+        run: >-
+          uv run --no-sync python -u scripts/nn_acceptance_live.py --execute
+          --phase "$NN_PHASE" --phase-timeout-s "$NN_PHASE_TIMEOUT"
+          --total-timeout-s "$NN_TOTAL_TIMEOUT" --heartbeat-s 15
+      - name: Upload available evidence, including failures
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: nn-live-${{ inputs.phase }}-${{ matrix.python }}-${{ github.sha }}
+          path: |
+            artifacts/nn_acceptance/
+            !artifacts/nn_acceptance/**/tmp/**
+          if-no-files-found: warn
+          retention-days: 14

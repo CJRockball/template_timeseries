@@ -1,0 +1,8 @@
+# TEMPLATE ONLY: bind actual data/artifact IDs and declared units before use.
+# No measured outcomes, real release IDs or operator approvals are supplied.
+# --operation template: creates blank measured-outcome fields, not synthetic labels. Bind actual SHA256 first.
+pipeline_dir: artifacts/nn_batch_pipelines/nnpipe_REPLACE_WITH_ACTUAL_ID
+expected_pipeline_id: nnpipe_REPLACE_WITH_ACTUAL_ID
+expected_pipeline_manifest_sha256: REPLACE_WITH_ACTUAL_64_HEX_SHA256
+scoring_batch_id: score_REPLACE_WITH_ACTUAL_ID
+target_unit: REPLACE_WITH_DECLARED_TARGET_UNIT

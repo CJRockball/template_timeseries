@@ -1,0 +1,16 @@
+# TEMPLATE ONLY: bind actual data/artifact IDs and declared units before use.
+# No measured outcomes, real release IDs or operator approvals are supplied.
+# Compatibility filename; 12 illustrative binary runs. Use xgb.example.yaml for four regression runs.
+base: configs/experiment/xgb_baseline.yaml
+experiment_name: demo_binary_grid
+grid:
+  model.params.max_depth:
+  - 3
+  - 5
+  - 7
+  model.params.learning_rate:
+  - 0.03
+  - 0.1
+  model.params.scale_pos_weight:
+  - auto
+  - 10

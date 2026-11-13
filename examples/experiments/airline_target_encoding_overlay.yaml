@@ -1,0 +1,44 @@
+# EXPERIMENT OVERLAY: merge this top-level fitted_features section into a COPY
+# of your existing airline experiment YAML. Not input to --block-params.
+# Apply the target-encoding code patch before validating/running this config.
+# Retain existing data, split, model, training and metrics settings.
+# Retain data.feature_set_id to test TE on top of your existing stateless FE;
+# use feature_set_id: null if deliberately comparing raw baseline + TE.
+# If fitted_features already exists, combine the lists under ONE YAML key.
+fitted_features:
+  - step: target_encoding
+    group_by: [flight_distance]
+    smoothing: 20.0
+    n_splits: 5
+    seed: 42
+    min_group_size: 1
+
+  - step: target_encoding
+    group_by: [flight_distance, class]
+    smoothing: 20.0
+    n_splits: 5
+    seed: 42
+    min_group_size: 1
+
+  - step: target_encoding
+    group_by: [flight_distance, type_of_travel]
+    smoothing: 20.0
+    n_splits: 5
+    seed: 42
+    min_group_size: 1
+
+  - step: target_encoding
+    group_by: [flight_distance, age]
+    smoothing: 20.0
+    n_splits: 5
+    seed: 42
+    min_group_size: 1
+
+# Four new numeric outputs:
+# te__flight_distance
+# te__flight_distance__class
+# te__flight_distance__type_of_travel
+# te__flight_distance__age
+# No target labels from validation/test/holdout or an external original dataset
+# are used. The encoded mappings are learned only from the actual fitting rows.
+# Values above are initial choices, not a performance-validated optimum.

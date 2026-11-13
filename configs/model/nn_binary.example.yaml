@@ -1,0 +1,31 @@
+# TEMPLATE ONLY: bind actual data/artifact IDs and declared units before use.
+# No measured outcomes, real release IDs or operator approvals are supplied.
+type: nn
+params:
+  architecture: mlp
+  task: binary_classification
+  device: cpu
+  inference_device: cpu
+  deterministic: true
+  cpu_threads: 1
+  hidden_dims:
+  - 64
+  - 32
+  dropout: 0.1
+  max_epochs: 50
+  patience: 5
+  monitor: logloss
+  batch_size: 64
+  prediction_batch_size: 512
+  learning_rate: 0.001
+  weight_decay: 1.0e-05
+  preprocessing:
+    numeric:
+    - x1
+    - x2
+    categorical: []
+    numeric_strategy: median
+    scaling: standard
+    constant_fill: 0.0
+    all_missing_fill: 0.0
+    unknown_policy: reserved

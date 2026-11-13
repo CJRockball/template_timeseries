@@ -1,0 +1,13 @@
+# Pass this file to build_features --block-params.
+# Dataset-specific names live here, not in the Python implementation.
+generic_interactions:
+  numeric_pairs:
+    - a: arrival_delay
+      b: departure_delay
+      ops: [difference]
+  transforms:
+    - columns: [arrival_delay]
+      ops: [log1p]
+  nullable_outputs:
+    - arrival_delay__minus__departure_delay
+    - arrival_delay__log1p

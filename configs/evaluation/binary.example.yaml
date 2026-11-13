@@ -1,0 +1,14 @@
+# TEMPLATE ONLY: bind actual data/artifact IDs and declared units before use.
+# No measured outcomes, real release IDs or operator approvals are supplied.
+schema_version: 1
+parent_run_id: run_REPLACE_WITH_ACTUAL_ID
+calibration_id: null
+release_variant: raw
+primary_metric: roc_auc
+intended_use: Research only; no automatic deployment approval
+limitations:
+- External population performance is not established.
+policy:
+  kind: none
+uncertainty:
+  enabled: false

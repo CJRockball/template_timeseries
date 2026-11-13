@@ -1,0 +1,18 @@
+# TEMPLATE ONLY: bind actual data/artifact IDs and declared units before use.
+# No measured outcomes, real release IDs or operator approvals are supplied.
+# Supported XGB or NN predictor; freeze final/CV-mean before holdout access.
+schema_version: 2
+task: regression
+parent_run_id: run_REPLACE_WITH_ACTUAL_ID
+predictor:
+  kind: final
+primary_metric: rmse
+target_unit: REPLACE_WITH_DECLARED_TARGET_UNIT
+calibration_id: null
+release_variant: raw
+uncertainty:
+  enabled: false
+criteria: []
+intended_use: Research only; no automatic deployment approval
+acknowledge_prior_exposure: false
+prior_exposure_note: ''

@@ -1,0 +1,20 @@
+# TEMPLATE ONLY: bind actual data/artifact IDs and declared units before use.
+# No measured outcomes, real release IDs or operator approvals are supplied.
+# Native XGB tree SHAP only, not NN SHAP or causal explanations.
+schema_version: 1
+release_dir: artifacts/releases/rel_REPLACE_WITH_ACTUAL_ID
+scoring_dir: artifacts/scores/score_REPLACE_WITH_ACTUAL_ID
+expected_release_id: rel_REPLACE_WITH_ACTUAL_ID
+expected_scoring_batch_id: score_REPLACE_WITH_ACTUAL_ID
+runtime_python: /REPLACE_WITH_PINNED_ENV/bin/python
+runtime_source_root: /REPLACE_WITH_PINNED_CHECKOUT/src/ml_template
+registry_path: data/project.db
+output_root: artifacts/explanations
+chunk_size: 256
+max_rows: 100000
+timeout_seconds: 600
+groups: {}
+task: regression
+target_unit: REPLACE_WITH_DECLARED_TARGET_UNIT
+prediction_atol: 1.0e-05
+prediction_rtol: 1.0e-05

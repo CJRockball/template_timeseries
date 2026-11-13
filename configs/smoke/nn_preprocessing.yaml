@@ -1,0 +1,9 @@
+# TEMPLATE ONLY: bind actual data/artifact IDs and declared units before use.
+# No measured outcomes, real release IDs or operator approvals are supplied.
+preprocessor: configs/preprocessing/nn.example.yaml
+source:
+  kind: synthetic
+  rows: 128
+sample_rows: 128
+seed: 42
+validation_fraction: 0.25

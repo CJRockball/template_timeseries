@@ -1,0 +1,12 @@
+# TEMPLATE ONLY: bind actual data/artifact IDs and declared units before use.
+# No measured outcomes, real release IDs or operator approvals are supplied.
+# Dedicated preprocessing schema, not an experiment.
+numeric:
+- x1
+- x2
+categorical: []
+numeric_strategy: median
+scaling: standard
+constant_fill: 0.0
+all_missing_fill: 0.0
+unknown_policy: reserved

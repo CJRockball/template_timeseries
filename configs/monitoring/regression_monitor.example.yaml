@@ -1,0 +1,19 @@
+# TEMPLATE ONLY: bind actual data/artifact IDs and declared units before use.
+# No measured outcomes, real release IDs or operator approvals are supplied.
+# REPLACE illustrative as_of. Bind real mature labels before evaluating performance.
+schema_version: 1
+scoring_batch_id: score_REPLACE_WITH_ACTUAL_ID
+reference_id: ref_REPLACE_WITH_ACTUAL_ID
+label_import_id: null
+as_of: '2000-01-01T00:00:00Z'
+target_unit: REPLACE_WITH_DECLARED_TARGET_UNIT
+min_rows: 200
+min_labelled: 100
+min_label_coverage: 0.9
+js_warning: 0.1
+missing_rate_warning: 0.1
+missing_rate_delta_warning: 0.1
+rmse_warning: null
+mae_warning: null
+abs_bias_warning: null
+quality_ranges: {}

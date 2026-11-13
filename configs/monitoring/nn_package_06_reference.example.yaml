@@ -1,0 +1,11 @@
+# TEMPLATE ONLY: bind actual data/artifact IDs and declared units before use.
+# No measured outcomes, real release IDs or operator approvals are supplied.
+# --operation reference. A tiny demo is plumbing, not a supported reference population.
+pipeline_dir: artifacts/nn_batch_pipelines/nnpipe_REPLACE_WITH_ACTUAL_ID
+expected_pipeline_id: nnpipe_REPLACE_WITH_ACTUAL_ID
+expected_pipeline_manifest_sha256: REPLACE_WITH_ACTUAL_64_HEX_SHA256
+scoring_batch_id: score_REPLACE_WITH_ACTUAL_ID
+target_unit: REPLACE_WITH_DECLARED_TARGET_UNIT
+name: demo_explicit_reference
+approved_population: REPLACE_WITH_APPROVED_POPULATION_DESCRIPTION
+numeric_bins: 10

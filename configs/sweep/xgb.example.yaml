@@ -1,0 +1,12 @@
+# TEMPLATE ONLY: bind actual data/artifact IDs and declared units before use.
+# No measured outcomes, real release IDs or operator approvals are supplied.
+# Four bounded regression runs on a fixed split; no holdout evaluation sweep.
+base: configs/experiment/xgb_regression.example.yaml
+experiment_name: demo_xgb_grid
+grid:
+  model.params.max_depth:
+  - 2
+  - 3
+  model.params.learning_rate:
+  - 0.05
+  - 0.1

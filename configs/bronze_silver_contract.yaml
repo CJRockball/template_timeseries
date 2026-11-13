@@ -1,0 +1,61 @@
+# TEMPLATE ONLY: bind actual data/artifact IDs and declared units before use.
+# No measured outcomes, real release IDs or operator approvals are supplied.
+# Compatibility ingestion filename. Illustrative rows:256, not supplied data; edit the contract for your source.
+project:
+  name: demo_regression
+  description: Illustrative tabular template, not time-series forecasting
+data_paths:
+  database: data/project.db
+  raw_data: data/raw
+  processed_data: data/processed
+  artifacts: artifacts
+  logs: logs
+data:
+  adapter: None
+  source: data/raw/demo_regression.csv
+  format: csv
+  entity_id: id
+  target: target
+  task: regression
+bronze_source_contract:
+  rows: 256
+  columns: 4
+  col_names: &id001
+  - id
+  - x1
+  - x2
+  - target
+  roles:
+    id:
+    - id
+    feature:
+    - x1
+    - x2
+    target:
+    - target
+validation:
+  required_columns: *id001
+  require_unique_entity_id: true
+  max_missing_rate: 0.0
+silver_eda_contract:
+  canonical_names:
+    id: id
+    x1: x1
+    x2: x2
+    target: target
+  canonical_dtypes:
+    id: Int64
+    x1: float64
+    x2: float64
+    target: float64
+  feature_types:
+    numerical:
+    - x1
+    - x2
+    nominal: []
+    ordinal: []
+  allowed_values: {}
+  value_mappings: {}
+  missingness:
+    default_max_rate: 0.0
+    max_rate_by_column: {}

@@ -1,0 +1,9 @@
+# TEMPLATE ONLY: bind actual data/artifact IDs and declared units before use.
+# No measured outcomes, real release IDs or operator approvals are supplied.
+# Metadata/checkpoint verification only.
+parent_run_id: run_REPLACE_WITH_ACTUAL_ID
+predictor_kind: final
+database: data/project.db
+expected_silver_dataset_version_id: REPLACE_WITH_ACTUAL_SILVER_ID
+expected_feature_set_id: null
+expected_split_id: split_REPLACE_WITH_ACTUAL_ID

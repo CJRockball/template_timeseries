@@ -1,0 +1,11 @@
+# TEMPLATE ONLY: bind actual data/artifact IDs and declared units before use.
+# No measured outcomes, real release IDs or operator approvals are supplied.
+type: lgbm
+params:
+  objective: binary
+  eval_metric: average_precision
+  n_estimators: 300
+  early_stopping_rounds: 20
+  num_leaves: 15
+  learning_rate: 0.05
+  scale_pos_weight: auto

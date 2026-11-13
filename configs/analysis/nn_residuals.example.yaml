@@ -1,0 +1,14 @@
+# TEMPLATE ONLY: bind actual data/artifact IDs and declared units before use.
+# No measured outcomes, real release IDs or operator approvals are supplied.
+# Saved development OOF only; not training or holdout evaluation.
+enabled: true
+run_id: run_REPLACE_WITH_ACTUAL_ID
+target_unit: REPLACE_WITH_DECLARED_TARGET_UNIT
+error_sample_size: 25
+feature_columns:
+- x1
+- x2
+database: data/project.db
+output_root: null
+silver_root: null
+split_root: null

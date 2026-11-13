@@ -1,0 +1,18 @@
+# TEMPLATE ONLY: bind actual data/artifact IDs and declared units before use.
+# No measured outcomes, real release IDs or operator approvals are supplied.
+# --block-params expects a mapping of block name to parameters, not a bare parameter mapping.
+generic_interactions:
+  transforms:
+  - columns:
+    - x1
+    ops:
+    - square
+  numeric_pairs:
+  - a: x1
+    b: x2
+    ops:
+    - product
+    - difference
+  numeric_category: []
+  category_pairs: []
+  nullable_outputs: []

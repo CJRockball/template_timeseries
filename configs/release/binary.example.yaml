@@ -1,0 +1,10 @@
+# TEMPLATE ONLY: bind actual data/artifact IDs and declared units before use.
+# No measured outcomes, real release IDs or operator approvals are supplied.
+schema_version: 1
+name: demo_binary_research
+parent_run_id: run_REPLACE_WITH_ACTUAL_ID
+evaluation_id: eval_REPLACE_WITH_ACTUAL_ID
+calibration_id: null
+intended_use: Research only; no automatic deployment approval
+acknowledge_research_release: false
+parity_atol: 1.0e-07

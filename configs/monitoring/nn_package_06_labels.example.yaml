@@ -1,0 +1,12 @@
+# TEMPLATE ONLY: bind actual data/artifact IDs and declared units before use.
+# No measured outcomes, real release IDs or operator approvals are supplied.
+# --operation labels. Only genuine known outcomes; declare sampling truthfully.
+pipeline_dir: artifacts/nn_batch_pipelines/nnpipe_REPLACE_WITH_ACTUAL_ID
+expected_pipeline_id: nnpipe_REPLACE_WITH_ACTUAL_ID
+expected_pipeline_manifest_sha256: REPLACE_WITH_ACTUAL_64_HEX_SHA256
+scoring_batch_id: score_REPLACE_WITH_ACTUAL_ID
+target_unit: REPLACE_WITH_DECLARED_TARGET_UNIT
+input_path: data/labels/REPLACE_WITH_MEASURED_OUTCOMES.csv
+source: REPLACE_WITH_MEASUREMENT_SOURCE
+outcome_definition: REPLACE_WITH_CONTINUOUS_OUTCOME_DEFINITION
+sampling: unknown

@@ -1,0 +1,10 @@
+# TEMPLATE ONLY: bind actual data/artifact IDs and declared units before use.
+# No measured outcomes, real release IDs or operator approvals are supplied.
+# Prospective new split only; never relabel old partitions. Set recalibration_fraction:0 before splitting for correction:none.
+split:
+  method: random
+  holdout_fraction: 0.2
+  calibration_fraction: 0.15
+  recalibration_fraction: 0.1
+  n_folds: 5
+  seed: 42

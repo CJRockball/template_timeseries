@@ -1,0 +1,13 @@
+# TEMPLATE ONLY: bind actual data/artifact IDs and declared units before use.
+# No measured outcomes, real release IDs or operator approvals are supplied.
+parent_run_id: run_REPLACE_WITH_ACTUAL_ID
+predictor_kind: final
+correction: none
+coverages:
+- 0.9
+target_unit: REPLACE_WITH_DECLARED_TARGET_UNIT
+min_calibration_rows: 30
+min_recalibration_rows: 10
+intended_use: Research only; no automatic deployment approval
+acknowledge_prior_exposure: false
+prior_exposure_note: ''

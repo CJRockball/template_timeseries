@@ -1,0 +1,20 @@
+# TEMPLATE ONLY: bind actual data/artifact IDs and declared units before use.
+# No measured outcomes, real release IDs or operator approvals are supplied.
+# Release-first only. Reference supplies keys/order, never outcomes. Use the original sealed runtime.
+release_dir: artifacts/releases/rel_REPLACE_WITH_ACTUAL_ID
+expected_release_id: rel_REPLACE_WITH_ACTUAL_ID
+input_path: data/inference/demo_features.csv
+input_format: canonical
+runtime_source_root: /REPLACE_WITH_PINNED_CHECKOUT/src/ml_template
+runtime_python: /REPLACE_WITH_PINNED_ENV/bin/python
+database: data/project.db
+output_root: artifacts/nn_batch_pipelines
+chunk_size: 128
+timeout_s: 1800
+acknowledge_research_scoring: false
+batch_metadata:
+  source_system: REPLACE_WITH_ACTUAL_SOURCE
+export:
+  reference: data/inference/demo_reference_keys.csv
+  columns:
+    y_pred_release: prediction

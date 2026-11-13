@@ -1,0 +1,13 @@
+# TEMPLATE ONLY: bind actual data/artifact IDs and declared units before use.
+# No measured outcomes, real release IDs or operator approvals are supplied.
+# Merge into an XGB regression experiment only; NN owns its preprocessing.
+fitted_features:
+- step: numeric_preprocessing
+  columns:
+  - x1
+  - x2
+  numeric_strategy: median
+  scaling: standard
+  constant_fill: 0.0
+  all_missing_fill: 0.0
+  missing_indicators: true

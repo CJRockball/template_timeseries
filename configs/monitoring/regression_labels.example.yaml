@@ -1,0 +1,10 @@
+# TEMPLATE ONLY: bind actual data/artifact IDs and declared units before use.
+# No measured outcomes, real release IDs or operator approvals are supplied.
+schema_version: 1
+scoring_batch_id: score_REPLACE_WITH_ACTUAL_ID
+input_path: data/labels/REPLACE_WITH_COMPLETE_KEYED_OUTCOME_SNAPSHOT.parquet
+source: REPLACE_WITH_MEASUREMENT_SOURCE
+outcome_definition: REPLACE_WITH_CONTINUOUS_OUTCOME_DEFINITION
+sampling: unknown
+target_unit: REPLACE_WITH_DECLARED_TARGET_UNIT
+supersedes_label_import_id: null

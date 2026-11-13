@@ -1,0 +1,111 @@
+# The .gitignore — trimmed to what this project actually produces.
+# Policy: code, manifests, and the column registry live in git;
+# raw data, the SQLite DB, and snapshot Parquet files do not (see data/README.md).
+
+# --- Python ---
+__pycache__/
+*.py[codz]
+*$py.class
+*.so
+
+# --- Packaging (uv build) ---
+build/
+dist/
+*.egg-info/
+.eggs/
+sdist/
+wheels/
+.installed.cfg
+
+# --- Installer logs ---
+pip-log.txt
+
+# --- Test / lint / type-checker caches ---
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+coverage.xml
+.mypy_cache/
+.ruff_cache/
+
+# --- Jupyter ---
+.ipynb_checkpoints/
+
+# --- Environments & secrets ---
+.env
+.envrc
+.venv/
+venv/
+env/
+
+# --- Logs ---
+*.log
+logs/*
+!logs/.gitignore
+
+# --- Data policy (see data/README.md) ---
+# Raw SECOM files: regenerable via fetch, never commit.
+# Ignore everything under data except the raw placeholder.
+/data/*
+!/data/raw/
+/data/raw/*
+!/data/raw/.gitignore
+
+# --- Config policy ---
+# Config templates: ignore local requests, retain reviewed examples and infrastructure.
+/configs/**
+!/configs/**/
+!/configs/**/README.md
+!/configs/**/.gitignore
+!/configs/**/*.example.yaml
+!/configs/**/*.example.yml
+!/configs/**/*.fragment.yaml
+!/configs/acceptance/**
+!/configs/bronze_silver_contract.yaml
+!/configs/experiment/xgb_baseline.yaml
+!/configs/explainability/example.yaml
+!/configs/model/nn_mlp.yaml
+!/configs/model/xgb.yaml
+!/configs/preprocessing/nn_preprocessing_example.yaml
+!/configs/smoke/nn_preprocessing.yaml
+!/configs/smoke/nn_training.yaml
+!/configs/smoke/nn_training_development.yaml
+!/configs/sweep/xgb_grid.yaml
+
+
+# --- Don't upload unnecessary files ---
+# Notebooks
+notebooks/*
+!notebooks/.gitignore
+# Processed intermediates: regenerate deterministically from code + config.
+artifacts/*
+!artifacts/.gitignore
+
+# Don't track Zone Identifiers
+*:Zone.Identifier
+
+# Scrap file
+/work_record.md
+/experiment_record.md
+/todo.txt
+/scratch.py
+
+# SQLite DB is derived: rebuild via the ingest entry point.
+# NOTE: the pattern ".db" (previous version) matches only a file literally
+# named ".db" — it never ignored secom.db. The glob is required.
+*.db
+*.db-journal
+*.db-wal
+*.db-shm
+# Snapshots: Parquet matrices stay local; manifest.json files commit so
+# lineage lives in git history. Scoped to snapshots/ because artifacts/
+# Parquet files are tracked by design (run-registry convention).
+data/snapshots/**/*.parquet
+
+# --- Editor / OS ---
+.DS_Store
+# .vscode/   # uncomment if workspace settings should stay out of git
+# DOE latest-pointers: machine-local mutable state
+artifacts/doe/latest_design
+artifacts/doe/latest_run

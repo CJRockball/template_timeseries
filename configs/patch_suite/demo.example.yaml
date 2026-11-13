@@ -1,0 +1,35 @@
+# TEMPLATE ONLY: bind actual data/artifact IDs and declared units before use.
+# No measured outcomes, real release IDs or operator approvals are supplied.
+# Prospective reserved-partition example. Use the per-capability requests, not the old named 00-08 operator configs.
+schema_version: 2
+task: regression
+experiment_name: demo_reserved_regression
+seed: 42
+data:
+  dataset_name: demo_regression
+  dataset_config: configs/bronze_silver_contract.yaml
+  silver_dataset_version_id: REPLACE_WITH_ACTUAL_SILVER_ID
+  feature_set_id: null
+split:
+  method: random
+  holdout_fraction: 0.2
+  n_folds: 5
+  seed: 42
+  calibration_fraction: 0.15
+  recalibration_fraction: 0.1
+training:
+  validation_fraction: 0.2
+  refit_rounds_factor: 1.0
+metrics:
+  primary: rmse
+  names:
+  - rmse
+  - mae
+  - r2
+  alert_rates: []
+analysis:
+  permutation_importance: false
+  error_sample_size: 0
+  learning_curves: false
+  learning_curve_metric: rmse
+model_file: configs/model/xgb_regression.example.yaml

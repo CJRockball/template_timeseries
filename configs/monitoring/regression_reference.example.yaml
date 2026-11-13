@@ -1,0 +1,8 @@
+# TEMPLATE ONLY: bind actual data/artifact IDs and declared units before use.
+# No measured outcomes, real release IDs or operator approvals are supplied.
+schema_version: 1
+scoring_batch_id: score_REPLACE_WITH_ACTUAL_ID
+name: demo_reference
+approved_population: REPLACE_WITH_APPROVED_POPULATION_DESCRIPTION
+numeric_bins: 10
+target_unit: REPLACE_WITH_DECLARED_TARGET_UNIT
