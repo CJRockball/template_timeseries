@@ -1,0 +1,28 @@
+# Illustrative document; split the mappings into individual CLI YAML files.
+# No realised price/weather field is automatically known in advance.
+calendar_contract:
+  columns: {date: date, weekday: string}
+  key: [date]
+calendar_join:
+  source_id: calendar
+  version: v1
+  on: [date]
+  columns: {weekday: weekday}
+  mode: exact
+  known_in_advance: true
+  max_missing_fraction: 0
+requests_contract:
+  columns: {request_id: string, region: string, date: date, origin: utc_timestamp}
+  key: [request_id]
+external_contract:
+  columns: {region: string, date: date, available_at: utc_timestamp, prediction: float}
+  key: [region, date, available_at]
+point_in_time_join:
+  source_id: forecasts
+  version: v1
+  on: [region, date]
+  columns: {prediction: weather_prediction}
+  mode: point_in_time
+  available_at: available_at
+  origin: origin
+  max_missing_fraction: 0

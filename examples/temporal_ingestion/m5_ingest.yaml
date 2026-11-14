@@ -1,0 +1,25 @@
+# All paths are relative to THIS configuration file.
+database: ../../data/project.db
+source_id: m5_small
+version: v1
+input: ../../data/prepared/m5_small.csv
+provenance:
+  preparation: scripts/prepare_m5_temporal.py
+  profile: m5_small_v1
+  # Add the notebook manifest/input checksums here before the first import.
+contract:
+  columns:
+    observation_id: string
+    series_id: string
+    date: date
+    sales: int
+    store_id: string
+    item_id: string
+    wm_yr_wk: int
+  key: [observation_id]
+  temporal:
+    series: [series_id]
+    time: date
+    frequency: D
+    gaps: error
+    target: sales

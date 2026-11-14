@@ -1,0 +1,5 @@
+# Ingestion/export only. NOT registered as legacy Silver or eligible for training.
+database: ../../data/project.db
+base: {source_id: m5_small, version: v1}
+joins: []
+output: ../../data/temporal/m5_small_v1

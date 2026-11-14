@@ -1,0 +1,21 @@
+# Illustrative contract/recipe document, not directly a CLI config.
+# Ingest requests and external_forecasts independently with these contracts.
+requests_contract:
+  columns: {request_id: string, region: string, date: date, origin: utc_timestamp}
+  key: [request_id]
+external_contract:
+  columns: {region: string, date: date, available_at: utc_timestamp, forecast_value: float}
+  key: [region, date, available_at]
+assembly:
+  database: ../../data/project.db
+  base: {source_id: requests, version: v1}
+  joins:
+    - source_id: external_forecasts
+      version: v1
+      on: [region, date]
+      columns: {forecast_value: external_prediction}
+      mode: point_in_time
+      available_at: available_at
+      origin: origin
+      max_missing_fraction: 0
+  output: ../../data/temporal/forecast_requests_v1

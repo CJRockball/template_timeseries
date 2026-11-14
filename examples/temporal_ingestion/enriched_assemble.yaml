@@ -1,0 +1,12 @@
+# First ingest calendar_selected.csv with calendar_ingest.yaml.
+database: ../../data/project.db
+base: {source_id: m5_small, version: v1}
+joins:
+  - source_id: calendar
+    version: v1
+    on: [date]
+    columns: {weekday: calendar_weekday}
+    mode: exact
+    known_in_advance: true
+    max_missing_fraction: 0
+output: ../../data/temporal/m5_enriched_v1
