@@ -1,0 +1,8 @@
+# Prepare this two-column file externally; do not pass the full M5 calendar.csv.
+database: ../../data/project.db
+source_id: calendar
+version: v1
+input: ../../data/prepared/calendar_selected.csv
+contract:
+  columns: {date: date, weekday: string}
+  key: [date]
