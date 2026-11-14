@@ -88,11 +88,9 @@ def main():
         status = Path("/proc/self/status")
         if status.exists():
             value = next(
-
-                    line.split()[1]
-                    for line in status.read_text().splitlines()
-                    if line.startswith("VmHWM:")
-
+                line.split()[1]
+                for line in status.read_text().splitlines()
+                if line.startswith("VmHWM:")
             )
             metrics["peak_rss_bytes"] = int(value) * 1024
             metrics["rss_method"] = "Linux /proc/self/status VmHWM, includes source ingestion"
