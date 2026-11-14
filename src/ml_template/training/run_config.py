@@ -288,6 +288,9 @@ class RunConfig(_Strict):
 
     @model_validator(mode="after")
     def _task_compatibility(self):
+        from ml_template.temporal_stream.silver_guard import reject_temporal_version
+
+        reject_temporal_version(self.data.silver_dataset_version_id)
         regression = self.task == "regression"
         if regression:
             xgb = self.model.type == "xgb" and isinstance(self.model.params, XGBRegressionParams)

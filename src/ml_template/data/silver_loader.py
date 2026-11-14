@@ -80,6 +80,9 @@ def load_silver(
         raise FileNotFoundError(f"{manifest_path} not found; build Silver first")
 
     manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+    from ml_template.temporal_stream.silver_guard import reject_temporal_manifest
+
+    reject_temporal_manifest(manifest)
     if manifest.get("silver_dataset_version_id") != silver_dataset_version_id:
         raise ValueError(f"{manifest_path} belongs to a different Silver version")
     if not manifest.get("validation_passed"):
@@ -138,3 +141,10 @@ def load_silver(
         manifest=manifest,
         parquet_path=parquet_path,
     )
+
+
+def load_temporal_silver_dataset(path):
+    """Explicit temporal handle; never coerces temporal data into a tabular frame."""
+    from ml_template.temporal_stream.silver_io import load_temporal_silver
+
+    return load_temporal_silver(path)
