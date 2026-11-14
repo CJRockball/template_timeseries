@@ -70,9 +70,7 @@ def main():
     if status_path.exists():
         status = status_path.read_text()
         result["peak_rss_bytes"] = (
-            int(
-                next(line.split()[1] for line in status.splitlines() if line.startswith("VmHWM:"))
-            )
+            int(next(line.split()[1] for line in status.splitlines() if line.startswith("VmHWM:")))
             * 1024
         )
         result["rss_method"] = "Linux /proc/self/status VmHWM"

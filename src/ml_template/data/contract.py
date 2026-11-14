@@ -49,6 +49,9 @@ def load_dataset_contract(path: str | Path) -> DatasetContract:
     path = Path(path)
     with path.open("r", encoding="utf-8") as fh:
         raw = yaml.safe_load(fh) or {}
+    from ml_template.temporal_stream.silver_guard import reject_temporal_contract
+
+    reject_temporal_contract(raw)
     try:
         names: dict[str, str] = raw["silver_eda_contract"]["canonical_names"]
         dtypes: dict[str, str] = raw["silver_eda_contract"].get("canonical_dtypes", {})

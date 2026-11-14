@@ -261,9 +261,15 @@ def _load_split_config(path: Path):
     if not isinstance(raw, dict):
         raise ValueError("Experiment must be a YAML mapping")
     data = DataConfig.model_validate(raw.get("data", {}))
+    from ml_template.temporal_stream.silver_guard import reject_temporal_version
+
+    reject_temporal_version(data.silver_dataset_version_id)
     split = SplitConfig.model_validate(raw.get("split", {}))
     contract_path = resolve_path(data.dataset_config)
     contract_raw = yaml.safe_load(contract_path.read_text(encoding="utf-8"))
+    from ml_template.temporal_stream.silver_guard import reject_temporal_contract
+
+    reject_temporal_contract(contract_raw)
     task = contract_raw.get("data", {}).get("task", "binary_classification")
     expected = {"binary_classification": "stratified", "regression": "random"}
     if task not in expected:
@@ -299,6 +305,9 @@ def main(argv: list[str] | None = None) -> None:
         raise FileNotFoundError(f"{parquet} not found; build Silver first")
     logger.info("Creating split for %s from %s", silver_id, parquet)
 
+    from ml_template.temporal_stream.silver_guard import reject_temporal_path
+
+    reject_temporal_path(parquet.parent)
     df = pd.read_parquet(parquet, columns=[key_col, target_col])
     assignments = make_split(df, cfg.split, key_col, target_col)
 

@@ -154,3 +154,14 @@ def finish_eda_run(
                 error_summary=error_summary,
             )
         )
+
+
+def register_temporal_silver_build(engine, *, manifest_path):
+    """Register multi-file temporal Silver separately from legacy single-file rows."""
+    from pathlib import Path
+
+    from ml_template.db.temporal_silver_registry import register_temporal_silver
+
+    if engine.url.get_backend_name() != "sqlite" or engine.url.database in (None, ":memory:"):
+        raise ValueError("Temporal Silver registry requires a file-backed SQLite engine")
+    return register_temporal_silver(Path(engine.url.database), manifest_path)
