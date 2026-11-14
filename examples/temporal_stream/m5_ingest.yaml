@@ -1,0 +1,25 @@
+# Paths relative to this YAML. Change input/source_id for full M5.
+database: ../../data/project.db
+source_id: m5_small_stream
+version: v1
+input: ../../data/prepared/m5_small_stream.csv
+batch_size: 5000
+provenance:
+  preparation: scripts/prepare_m5_stream.py
+  # Add prepared sidecar manifest hashes here before first ingestion.
+contract:
+  columns:
+    observation_id: string
+    series_id: string
+    date: date
+    sales: int
+    store_id: string
+    item_id: string
+    wm_yr_wk: int
+  key: [observation_id]
+  temporal:
+    series: [series_id]
+    time: date
+    frequency: D
+    gaps: error
+    target: sales

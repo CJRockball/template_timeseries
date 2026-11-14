@@ -1,0 +1,6 @@
+# Not an input to existing tabular training.
+database: ../../data/project.db
+base: {source_id: m5_small_stream, version: v1}
+joins: []
+output: ../../data/temporal_stream/m5_small_v1
+batch_size: 5000
