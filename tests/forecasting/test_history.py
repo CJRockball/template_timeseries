@@ -175,11 +175,7 @@ def test_missing_calendar_date_is_not_row_lag(fixture):
     ]
     result = predict(fixture)
     row = next(
-
-            r
-            for r in feature_rows(result)
-            if r["series"] == ["a"] and r["origin_date"] == "2020-02-10"
-
+        r for r in feature_rows(result) if r["series"] == ["a"] and r["origin_date"] == "2020-02-10"
     )
     assert row["features"]["lag_7"] is None
     assert row["features"]["mean_7"] is None

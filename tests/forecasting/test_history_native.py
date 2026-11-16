@@ -102,13 +102,11 @@ def test_real_history_score_and_binding(native):
     metrics = json.loads((Path(report["artifact_path"]) / "metrics.json").read_text())["metrics"]
     assert (
         next(
-
-                r
-                for r in metrics
-                if r["method"] == "last_available"
-                and r["scope"] == "pooled"
-                and (r["comparison"] == "common_supported")
-
+            r
+            for r in metrics
+            if r["method"] == "last_available"
+            and r["scope"] == "pooled"
+            and (r["comparison"] == "common_supported")
         )["mae"]
         == 1
     )
