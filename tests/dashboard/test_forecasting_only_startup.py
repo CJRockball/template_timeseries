@@ -1,4 +1,5 @@
 """Mandatory real Dash regression tests for forecasting-only DB startup."""
+
 import sqlite3
 
 import pytest
@@ -9,7 +10,9 @@ from ml_template.dashboard.forecasting_app import create_app
 def test_empty_db_without_model_runs_starts_read_only(tmp_path):
     database = tmp_path / "forecast.sqlite"
     with sqlite3.connect(database) as conn:
-        conn.execute("CREATE TABLE temporal_acceptance_artifacts(artifact_id TEXT PRIMARY KEY,kind TEXT,manifest_sha256 TEXT,path TEXT)")
+        conn.execute(
+            "CREATE TABLE temporal_acceptance_artifacts(artifact_id TEXT PRIMARY KEY,kind TEXT,manifest_sha256 TEXT,path TEXT)"
+        )
     before = database.read_bytes()
     app = create_app(database)
     response = app.server.test_client().get("/_dash-layout")
@@ -17,12 +20,15 @@ def test_empty_db_without_model_runs_starts_read_only(tmp_path):
     assert "forecasting-container" in response.get_data(as_text=True)
     assert database.read_bytes() == before
     with sqlite3.connect(database) as conn:
-        assert conn.execute("SELECT name FROM sqlite_master WHERE name='model_runs'").fetchone() is None
+        assert (
+            conn.execute("SELECT name FROM sqlite_master WHERE name='model_runs'").fetchone()
+            is None
+        )
 
 
 def test_never_calls_legacy_engine_or_layout(tmp_path, monkeypatch):
-    from ml_template.db import connection
     from ml_template.dashboard.pages import assets_page
+    from ml_template.db import connection
 
     def forbidden(*args, **kwargs):
         raise AssertionError("Legacy startup path must not run")

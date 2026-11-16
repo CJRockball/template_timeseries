@@ -1,4 +1,5 @@
 """Forecasting-only saved-evidence launcher; no legacy engine/page construction."""
+
 import argparse
 from pathlib import Path
 
@@ -15,11 +16,19 @@ def create_app(database):
     app = Dash(__name__, title="Forecasting — Development")
 
     def layout():
-        return html.Div([
-            export_toolbar(),
-            dcc.Tabs(id="dashboard-tab", value="forecasting", children=[dcc.Tab(label="Forecasting — Development", value="forecasting")]),
-            html.Div(forecasting_page.layout(database=str(database)), id="forecasting-container"),
-        ])
+        return html.Div(
+            [
+                export_toolbar(),
+                dcc.Tabs(
+                    id="dashboard-tab",
+                    value="forecasting",
+                    children=[dcc.Tab(label="Forecasting — Development", value="forecasting")],
+                ),
+                html.Div(
+                    forecasting_page.layout(database=str(database)), id="forecasting-container"
+                ),
+            ]
+        )
 
     app.layout = layout
     forecasting_page.register_callbacks(app, database=str(database))
