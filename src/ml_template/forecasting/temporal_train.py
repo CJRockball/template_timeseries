@@ -111,6 +111,14 @@ def train(sample_path, parameters, seed, producer, factory, reload_model, output
                         "requests": len(requests),
                         "supported": len(supported),
                         "feature_order": features,
+                        **(
+                            {
+                                "requested_training_device": "cuda",
+                                "effective_training_device": model.effective_training_device,
+                            }
+                            if parameters.get("device") == "cuda"
+                            else {}
+                        ),
                     }
                 )
         (publication.stage / "report.json").write_text(

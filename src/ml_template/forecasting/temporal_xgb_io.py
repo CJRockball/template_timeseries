@@ -91,6 +91,35 @@ def build_samples(config):
             index.close()
 
 
+def require_cuda(booster):
+    import json
+    import re
+
+    device = json.loads(booster.save_config())["learner"]["generic_param"]["device"]
+    if re.fullmatch(r"cuda(?::[0-9]+)?", device) is None:
+        raise RuntimeError(
+            f"CUDA requested but XGBoost resolved to {device!r}; refusing CPU fallback"
+        )
+    return device
+
+
+def probe_cuda():
+    import numpy as np
+    import xgboost as xgb
+
+    if xgb.__version__ != "2.1.1":
+        raise RuntimeError("Temporal CUDA requires pinned XGBoost 2.1.1")
+    x = np.arange(32, dtype=np.float32).reshape(16, 2)
+    model = xgb.XGBRegressor(device="cuda", tree_method="hist", n_estimators=1, max_depth=1)
+    try:
+        model.fit(x, x[:, 0])
+        return require_cuda(model.get_booster())
+    except (xgb.core.XGBoostError, RuntimeError) as exc:
+        raise RuntimeError(
+            "CUDA preflight failed; check nvidia-smi and the XGBoost build, or explicitly use cpu"
+        ) from exc
+
+
 def fit(config, samples):
     import xgboost
 
@@ -112,15 +141,28 @@ def fit(config, samples):
     ):
         raise ValueError("Sample config/plan/Silver binding mismatch")
     params = XGBRegressionParams.model_validate(config["model"])
-    if params.device != "cpu":
-        raise ValueError("Initial temporal native acceptance is CPU-only")
+    adapter = XGBRegressionAdapter
+    if params.device == "cuda":
+        probe_cuda()
+
+        class CUDAAdapter(XGBRegressionAdapter):
+            def fit_with_validation(self, X_train, y_train, X_val, y_val):
+                rounds = super().fit_with_validation(X_train, y_train, X_val, y_val)
+                self.effective_training_device = require_cuda(self.model.get_booster())
+                return rounds
+
+            def refit(self, X, y, n_rounds):
+                super().refit(X, y, n_rounds)
+                self.effective_training_device = require_cuda(self.model.get_booster())
+
+        adapter = CUDAAdapter
     seed = config["seed"]
     return train(
         samples,
         params.model_dump(),
         seed,
         producer(),
-        lambda: XGBRegressionAdapter(params, seed),
+        lambda: adapter(params, seed),
         lambda path: XGBRegressionAdapter.load(params, seed, path),
         config["output_root"],
         config["database"],

@@ -135,8 +135,8 @@ def read_config(path):
         config[key] = str(
             (path.parent / value).resolve() if not value.is_absolute() else value.resolve()
         )
-    if config["model"].get("device", "cpu") != "cpu":
-        raise ValueError("This temporal workflow retains the current CPU-only contract")
+    if config["model"].get("device", "cpu") not in {"cpu", "cuda"}:
+        raise ValueError("Temporal XGBoost device must be cpu or cuda")
     return config
 
 
@@ -317,6 +317,10 @@ def run(args):
     if args.dry_run:
         print("Dry run complete; no workflow artifacts created.")
         return
+    if config["model"].get("device", "cpu") == "cuda":
+        from ml_template.forecasting.temporal_xgb_io import probe_cuda
+
+        print("CUDA preflight passed: " + probe_cuda(), flush=True)
     run_root.mkdir(parents=True, exist_ok=True)
     identifier = datetime.now(UTC).strftime("%Y%m%dT%H%M%SZ") + "-" + uuid.uuid4().hex[:8]
     directory = run_root / identifier
