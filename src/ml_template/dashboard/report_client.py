@@ -3,7 +3,7 @@
 CLIENTSIDE_CAPTURE = r"""
 function(htmlClicks, zipClicks, tab, consent) {
     "use strict";
-    const ids={assets:"assets-container",sweeps:"sweeps-container",experiments:"experiments-container",run:"single-run-container",compare:"compare-container",calibration:"calibration-container",evaluation:"evaluation-container"};
+    const ids={assets:"assets-container",sweeps:"sweeps-container",experiments:"experiments-container",run:"single-run-container",compare:"compare-container",calibration:"calibration-container",evaluation:"evaluation-container",forecasting:"forecasting-container"};
     const ctx=window.dash_clientside.callback_context || {};
     const trigger=String(ctx.triggered_id || (((ctx.triggered||[])[0]||{}).prop_id)||"").split(".")[0];
     if (!["report-export-html","report-export-zip"].includes(trigger)) return window.dash_clientside.no_update;

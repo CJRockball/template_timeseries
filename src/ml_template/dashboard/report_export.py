@@ -18,6 +18,7 @@ TABS = {
     "compare": "Compare",
     "calibration": "Calibration",
     "evaluation": "Final evaluation",
+    "forecasting": "Forecasting — Development",
 }
 MAX_BYTES = 12 * 1024 * 1024
 MAX_CELLS = 100000

@@ -1,4 +1,4 @@
-"""Seven-tab read-only dashboard, preserving Single run as the default."""
+"""Read-only dashboard with forecasting development evidence, preserving Single run as the default."""
 
 from __future__ import annotations
 
@@ -12,13 +12,14 @@ from ml_template.dashboard.pages import (
     compare_page,
     evaluation_page,
     experiment_page,
+    forecasting_page,
     run_page,
     sweeps_page,
 )
 from ml_template.dashboard.report_callbacks import export_toolbar, register_exports
 
 
-def create_app(engine=None):
+def create_app(engine=None, forecast_database=None):
     if engine is None:
         from ml_template.db.connection import get_engine
 
@@ -32,6 +33,7 @@ def create_app(engine=None):
         ("compare", "Compare", "compare-container", compare_page),
         ("calibration", "Calibration", "calibration-container", calibration_page),
         ("evaluation", "Final evaluation", "evaluation-container", evaluation_page),
+        ("forecasting", "Forecasting — Development", "forecasting-container", forecasting_page),
     ]
 
     def layout():
@@ -48,7 +50,9 @@ def create_app(engine=None):
                 ),
                 *[
                     html.Div(
-                        page.layout(engine),
+                        page.layout(engine, database=forecast_database)
+                        if value == "forecasting"
+                        else page.layout(engine),
                         id=container,
                         style={} if value == "run" else {"display": "none"},
                     )
@@ -59,7 +63,10 @@ def create_app(engine=None):
 
     app.layout = layout
     for _value, _label, _container, page in pages:
-        page.register_callbacks(app, engine)
+        if _value == "forecasting":
+            page.register_callbacks(app, engine, database=forecast_database)
+        else:
+            page.register_callbacks(app, engine)
     register_exports(app)
 
     @app.callback(
@@ -79,8 +86,11 @@ def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--port", type=int, default=8050)
     parser.add_argument("--debug", action="store_true")
+    parser.add_argument(
+        "--forecast-db", help="Existing project SQLite DB for saved forecasting reports"
+    )
     args = parser.parse_args(argv)
-    create_app().run(port=args.port, debug=args.debug)
+    create_app(forecast_database=args.forecast_db).run(port=args.port, debug=args.debug)
 
 
 if __name__ == "__main__":
