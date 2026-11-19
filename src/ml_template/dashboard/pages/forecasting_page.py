@@ -7,6 +7,7 @@ from dash import Input, Output, State, dcc, html
 from dash.exceptions import PreventUpdate
 
 from ml_template.dashboard import forecasting_data as data
+from ml_template.dashboard.forecast_time import panel as time_panel
 from ml_template.dashboard.forecasting_figs import empty, figures
 
 ERRORS = (ValueError, OSError, sqlite3.Error, KeyError, TypeError, OverflowError)
@@ -56,7 +57,8 @@ def layout(engine=None, database=None):
                     {
                         "label": "Load linked DEVELOPMENT scores for filtering and diagnostics (200,000 rows maximum)",
                         "value": "load",
-                    }
+                    },
+                    {"label": "Show time analysis", "value": "time"},
                 ],
                 value=[],
             ),
@@ -183,6 +185,7 @@ def render(
                     for key in ["pooled", "origins", "series", "actual", "residuals"]
                 ],
                 *[html.P(note) for note in charts["notes"]],
+                time_panel(result) if detail and "time" in detail else None,
                 html.H3("Largest supported errors: up to 20 rows"),
                 table(
                     data.largest_errors(result),
